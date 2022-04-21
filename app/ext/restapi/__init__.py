@@ -8,6 +8,6 @@ api = Api(bp)
 
 
 def init_app(app):
-    api.add_resource(ProductResource, "/product/")
-    api.add_resource(ProductItemResource, "/product/<product_id>")
+    api.add_resource(ProductResource, "/object/")
+    api.add_resource(ProductItemResource, "/object/<product_id>")
     app.register_blueprint(bp)

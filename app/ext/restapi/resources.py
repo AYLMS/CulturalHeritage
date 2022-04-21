@@ -8,7 +8,7 @@ from app.models import Object
 class ProductResource(Resource):
     def get(self):
         products = Object.query.all() or abort(204)
-        return jsonify({"products": [product.to_dict() for product in products]})
+        return jsonify({"object": [product.to_dict() for product in products]})
 
     @login_required(basic=True, username="admin")
     def post(self):
