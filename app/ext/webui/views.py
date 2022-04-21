@@ -2,16 +2,18 @@ from flask import abort, render_template
 from flask_simplelogin import login_required
 
 from app.models import Object
+import random
 
 
 def index():
-    products = Object.query.all()
-    return render_template("index.html", products=products)
+    products = Object.query.filter(Object.photo != "").all()
+    random.shuffle(products)
+    return render_template("index.html", products=products[:10])
 
 
-def product(product_id):
+def object(product_id):
     product = Object.query.filter_by(id=product_id).first() or abort(
-        404, "produto nao encontrado"
+        404, "Такой объект не найден"
     )
     return render_template("product.html", product=product)
 

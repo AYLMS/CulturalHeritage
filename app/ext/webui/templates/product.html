@@ -1,13 +1,18 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
+{% block title %}Культурное наследие{% endblock %}
 {% block content %}
 <div class="container">
-<h1>{{ product.name }}</h1>
-
-<div class="jumbotron">
-<h2>R$ {{ "%0.2f" | format(product.price)}}</h2>
-<p>
-    {{product.description}}
-</p>
-</div>
+	<div class="card">
+		{% if product.photo %}
+		<img src={{ product.photo }} class="card-img-top" alt="...">
+		{% endif %}
+		<div class="card-body">
+			{% if product.unesco %}
+			<span class="badge bg-success">ЮНЕСКО</span>
+			{% endif %}
+			<h5 class="card-title">{{ product.name }}</h5>
+			<p class="card-text">{{ product.region }}</p>
+		</div>
+	</div>
 </div>
 {% endblock %}
