@@ -1,5 +1,6 @@
 import click
 import json
+import os
 
 from app.ext.auth import create_user
 from app.ext.database import db
@@ -18,29 +19,32 @@ def drop_db():
 
 def populate_db():
     """Populate db with sample data"""
-    with open('1.json', encoding='utf-8') as cat_file:
-        f = cat_file.read()
-        data = json.loads(f)
-        temp = []
-        b = {
-            'нет': False,
-            'да': True
-        }
-        for item in data:
-            name = item['nativeName']
-            id = item['nativeId']
-            region = item['data']['general']['region']['value']
-            unesco = item['data']['general']['unesco']['value'] if "value" in item['data']['general']['unesco'] else "нет"
-            try:
-                if 'photo' in item['data']['general'] and item['data']['general']['photo'] and "url" in item['data']['general']['photo']:
-                    photo = item['data']['general']['photo']['url']
-                else:
-                    photo = ""
-            except:
-                print(item)
-                break
+    for i in range(1, 16):
+        with open(os.path.join('data', f'{i}.json'), encoding='utf-8') as cat_file:
+            f = cat_file.read()
+            data = json.loads(f)
+            temp = []
+            b = {
+                'нет': False,
+                'да': True
+            }
+            for item in data:
+                name = item['nativeName']
+                id = item['nativeId']
+                region = item['data']['general']['region']['value']
+                unesco = item['data']['general']['unesco']['value'] if "value" in item['data']['general'][
+                    'unesco'] else "нет"
+                try:
+                    if 'photo' in item['data']['general'] and item['data']['general']['photo'] and "url" in \
+                            item['data']['general']['photo']:
+                        photo = item['data']['general']['photo']['url']
+                    else:
+                        photo = ""
+                except:
+                    print(item)
+                    break
 
-            temp.append(Object(name=name, id=id, region=region, unesco=b[unesco], photo=photo))
+                temp.append(Object(name=name, id=id, region=region, unesco=b[unesco], photo=photo))
 
     db.session.bulk_save_objects(temp)
     db.session.commit()
