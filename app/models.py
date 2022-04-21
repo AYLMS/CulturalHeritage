@@ -3,14 +3,22 @@ from sqlalchemy_serializer import SerializerMixin
 from app.ext.database import db
 
 
-class Product(db.Model, SerializerMixin):
+class Object(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(140))
-    price = db.Column(db.Numeric())
-    description = db.Column(db.Text)
+    name = db.Column(db.String())
+    region = db.Column(db.String())
+    unesco = db.Column(db.String())
+    photo = db.Column(db.String())
+    createDate = db.Column(db.String())
+    category = db.Column(db.String())
+    tipology = db.Column(db.String())
 
 
-class User(db.Model, SerializerMixin):
+class CategoryType(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(140))
-    password = db.Column(db.String(512))
+    name = db.Column(db.String())
+
+
+class Tipology(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
