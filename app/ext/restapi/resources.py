@@ -2,12 +2,12 @@ from flask import abort, jsonify
 from flask_restful import Resource
 from flask_simplelogin import login_required
 
-from app.models import Product
+from app.models import Object
 
 
 class ProductResource(Resource):
     def get(self):
-        products = Product.query.all() or abort(204)
+        products = Object.query.all() or abort(204)
         return jsonify(
             {"products": [product.to_dict() for product in products]}
         )

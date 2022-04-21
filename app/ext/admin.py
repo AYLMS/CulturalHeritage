@@ -5,7 +5,7 @@ from flask_simplelogin import login_required
 from werkzeug.security import generate_password_hash
 
 from app.ext.database import db
-from app.models import Product, User
+from app.models import Object, User, Category, Typology
 
 # Proteck admin with login / Monkey Patch
 AdminIndexView._handle_view = login_required(AdminIndexView._handle_view)
@@ -22,12 +22,11 @@ class UserAdmin(sqla.ModelView):
 
 
 def init_app(app):
-    admin.name = app.config.TITLE
+    admin.name = "Администрирование"
     admin.template_mode = app.config.FLASK_ADMIN_TEMPLATE_MODE
     admin.init_app(app)
 
-    # Add admin page for Product
-    admin.add_view(sqla.ModelView(Product, db.session))
-
-    # Add admin page for User
-    admin.add_view(UserAdmin(User, db.session))
+    admin.add_view(sqla.ModelView(Object, db.session, name="Объекты"))
+    admin.add_view(sqla.ModelView(Category, db.session, name="Категории"))
+    admin.add_view(sqla.ModelView(Typology, db.session, name="Типологии"))
+    # admin.add_view(UserAdmin(User, db.session))
